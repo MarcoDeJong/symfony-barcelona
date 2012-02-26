@@ -20,7 +20,18 @@ class RssReaderService
     private $feedName;
 
     /**
-     * Sets configured RSS Feeds (@see services.yml)
+     * (@see services.yml)
+     * @param array $feeds
+     */
+    public function __construct($feeds = null)
+    {
+        if (null !== $feeds) {
+            $this->setFeedsRss($feeds);
+        }
+    }
+
+    /**
+     * Sets configured RSS Feeds
      * @param array $feeds
      */
     public function setFeedsRss($feeds)
@@ -39,6 +50,7 @@ class RssReaderService
 
     /**
      * @param string $rawFeed
+     * @return RssReaderService
      */
     public function setRawFeed($rawFeed)
     {
@@ -56,6 +68,7 @@ class RssReaderService
 
     /**
      * @param string $feedName
+     * @return RssReaderService
      */
     public function setFeedName($feedName)
     {
@@ -72,45 +85,44 @@ class RssReaderService
     }
 
     /**
-     * Reads RSS and returns item array. Info is stored in APC during an hour to increase
-     * speed
-     *
-     * @return array
+     * Actually gets feed contents, either from apc or network. Contents is stored 1 hour if everything is ok and 1 minute an empty string if there is an error
+     * @param string $url
+     * @return string
      */
-    public function parseRss()
+    public function getFeedContents($url)
     {
         $apcKey = 'sfbcnrss_' . md5($this->getFeedName());
         if (extension_loaded('apc')) {
             if (apc_exists($apcKey)) {
-                $rss = simplexml_load_string(apc_fetch($apcKey));
+                $rssString = apc_fetch($apcKey);
             } else {
-                $rss = $this->getRSSInfo();
-                if (!$rss) {
-                    apc_store($apcKey, array(), 3600);
+                $rssString = file_get_contents($url);
+                if (!$rssString) {
+                    apc_store($apcKey, '', 60);
                 } else {
-                    apc_store($apcKey, $rss->asXML(), 3600);
+                    apc_store($apcKey, $rssString, 3600);
                 }
             }
         } else {
-            $rss = $this->getRSSInfo();
+            $rssString = file_get_contents($url);
         }
 
-        if (!$rss) {
-            return array();
-        } else {
-            return $rss->channel[0]->item;
-        }
+        return $rssString;
     }
 
     /**
-     * Connects to RSS Url resource and obtains info
-     * @return \SimpleXMLElement
+     * Reads RSS and returns item array.
+     * @return array
      */
-    private function getRSSInfo()
+    public function parseRss()
     {
-        /**
-         * Symfony.es did not work with simplexml_load_file in PHP5.3.6
-         */
-        return simplexml_load_string($this->getRawFeed());
+        $rssString = $this->getRawFeed();
+        if (empty($rssString)) {
+            return array();
+        } else {
+            $rss = simplexml_load_string($rssString);
+
+            return $rss->channel[0]->item;
+        }
     }
 }

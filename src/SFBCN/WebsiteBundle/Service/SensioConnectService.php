@@ -7,6 +7,17 @@ class SensioConnectService
     protected $groupName;
 
     /**
+     * (@see services.yml)
+     * @param string $name
+     */
+    public function __construct($name = null)
+    {
+        if (null !== $name) {
+            $this->setGroupName($name);
+        }
+    }
+
+    /**
      * Sets configured RSS Feeds (@see services.yml)
      * @param string $name
      * @return \SFBCN\WebsiteBundle\Service\SensioConnectService
