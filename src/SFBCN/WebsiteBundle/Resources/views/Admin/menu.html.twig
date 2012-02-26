@@ -1,6 +1,51 @@
-{# admin/menu.html.twig #}
 {% extends 'SFBCNWebsiteBundle::adminlayout.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts '@SFBCNWebsiteBundle/Resources/public/js/jquery.countdown.min.js' %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        // <![CDATA[
+        $(document).ready(function() {
+            var countdownPlaceholder = $('[data-countdown]');
+            if (countdownPlaceholder.size() > 0) {
+                countdownPlaceholder.each(function() {
+                    var _mthis = $(this);
+                    var untilParts = _mthis.data('until').split(',');
+                    _mthis.countdown({until: new Date(untilParts[0], untilParts[1], untilParts[2], untilParts[3], untilParts[4], untilParts[5])});
+                });
+            }
+        });
+        // ]]>
+    </script>
+{% endblock %}
+
+{% block css %}
+    {{ parent() }}
+    <link href='http://fonts.googleapis.com/css?family=Doppio+One' rel='stylesheet' type='text/css'>
+    {% stylesheets '@SFBCNWebsiteBundle/Resources/public/css/admin.css' %}
+    <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
 {% block content %}
-Welcome to Symfony Barcelona Admin Dashboard
+<div class="row">
+    <div class="span12">
+        {% if nextEvent %}
+        <h1>Next event</h1>
+        <h2>{{ nextEvent.title }} <a href="{{ path('event_show', { 'id': nextEvent.id }) }}" class="btn btn-mini btn-info">show</a></h2>
+        <div class="countdown clear_fix">
+            <div class="nextEvent" data-countdown="countdown" data-until="{{ nextEvent.datetime|date('Y,m,d,H,i,s') }}"></div>
+        </div>
+        {% endif %}
+        
+        <div class="well clearboth separe-from-countdown">
+            <a href="{{ path('event_new') }}" class="btn btn-primary">
+                <i class="icon-white icon-calendar"></i>
+                Create a new event
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}

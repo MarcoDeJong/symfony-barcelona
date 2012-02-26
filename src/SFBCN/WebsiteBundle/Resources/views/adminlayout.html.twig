@@ -1,15 +1,29 @@
-{# layout.html.twig #}
 {% spaceless %}
 <!doctype html>
 <html lang="{{ app.session.locale }}">
 <head>
-    <title>Symfony Barcelona - Admin área</title>
+    <title>Symfony Barcelona - Admin area</title>
+    {% block css %}
+    {% stylesheets '@SFBCNWebsiteBundle/Resources/public/css/bootstrap.min.css'
+                   '@SFBCNWebsiteBundle/Resources/public/css/bootstrap-responsive.min.css' %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+    {% endblock %}
 </head>
 <body>
-{% block header %}
-    {% include 'SFBCNWebsiteBundle::adminmenu.html.twig' %}
-{% endblock %}
-{% block content %}{% endblock %}
+    {% block header %}
+        {% include 'SFBCNWebsiteBundle::adminmenu.html.twig' %}
+    {% endblock %}
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block javascripts %}
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    {% javascripts '@SFBCNWebsiteBundle/Resources/public/js/bootstrap.min.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% endblock %}
 </body>
 </html>
 {% endspaceless %}

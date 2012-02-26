@@ -1,41 +1,45 @@
-<h1>Event list</h1>
+{% extends 'SFBCNWebsiteBundle::adminlayout.html.twig' %}
 
-<table class="records_list">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>DateTime</th>
-            <th>Location</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td><a href="{{ path('event_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{{ entity.title }}</td>
-            <td>{% if entity.datetime %}{{ entity.datetime|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>{{ entity.location }}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('event_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('event_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% block header %}
+    {% set activeItem = 1 %}
+    {{ parent() }}
+{% endblock %}
 
-<ul>
-    <li>
-        <a href="{{ path('event_new') }}">
-            Create a new entry
-        </a>
-    </li>
-</ul>
+{% block content %}
+<div class="page-header">
+    <h1>Events <small>Here is a list of Symfony Barcelona events</small></h1>
+</div>
+<div class="row">
+    <div class="span12">
+        <table id="events" class="table table-bordered table-stiped">
+            <thead>
+                <tr>
+                    <th>Event title</th>
+                    <th>Event date</th>
+                    <th>Location</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in entities %}
+                <tr>
+                    <td>{{ entity.title }}</td>
+                    <td>{% if entity.datetime %}{{ entity.datetime|date('d/m/Y \\a\\t H:i:s') }}{% endif %}</td>
+                    <td>{{ entity.location }}</td>
+                    <td>
+                        <a class="btn btn-mini btn-info" href="{{ path('event_show', { 'id': entity.id }) }}">show</a>&nbsp;<a class="btn btn-mini btn-info" href="{{ path('event_edit', { 'id': entity.id }) }}">edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="well">
+            <a class="btn btn-primary" href="{{ path('event_new') }}">
+                <i class="icon-white icon-calendar"></i>
+                New event
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

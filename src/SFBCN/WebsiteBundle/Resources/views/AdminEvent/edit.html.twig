@@ -1,24 +1,59 @@
-<h1>Event edit</h1>
+{% extends 'SFBCNWebsiteBundle::adminlayout.html.twig' %}
 
-<form action="{{ path('event_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit">Edit</button>
-    </p>
-</form>
+{% block header %}
+    {% set activeItem = 1 %}
+    {{ parent() }}
+{% endblock %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('event') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('event_delete', { 'id': entity.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
+{% block content %}
+<div class="page-header">
+    <h1>Event modification <small>Here you can edit the event</small></h1>
+</div>
+<div class="row">
+    <div class="span4">
+        <h3>Edit an event</h3>
+    </div>
+    <div class="span8">
+        {% if app.session.hasFlash('notice') %}
+        <div class="alert alert-success">
+            <a class="close" data-dismiss="alert">×</a>
+            <strong>Good job!</strong> {{ app.session.flash('notice') }}
+        </div>
+        {% endif %}
+        <div id="delete-confirm" class="alert alert-error hidden">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <h4 class="alert-heading">Wait! This action cannot be undone!</h4>
+            <p>Are you sure you want to delete this event?</p>
+            <form action="{{ path('event_delete', { 'id': entity.id }) }}" method="post" style="display:inline;">
+                {{ form_widget(delete_form, { attr: { style: 'display:inline' }}) }}
+                <button type="submit" class="btn btn-danger">
+                    <i class="icon-white icon-remove"></i>
+                    I'm sure! Continue
+                </button>
+            </form>
+        </div>
+        {% form_theme edit_form 'SFBCNWebsiteBundle:Form:bootstrap.html.twig' %}
+        <form class="form-horizontal" action="{{ path('event_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+            {{ form_widget(edit_form) }}
+
+            <div class="form-actions">
+                <button class="btn btn-primary" type="submit">
+                    <i class="icon-white icon-ok"></i>
+                    Edit event
+                </button>&nbsp;
+
+                <a class="btn btn-warning" href="{{ path('event') }}">
+                    <i class="icon-white icon-backward"></i>
+                    Back to the list
+                </a>&nbsp;
+
+                <a href="#" class="btn btn-danger" onclick="$('#delete-confirm').removeClass('hidden'); return false;">
+                    <i class="icon-white icon-remove"></i>
+                    Delete event
+                </a>
+            </div>
         </form>
-    </li>
-</ul>
 
-{{ tinymce_init() }}
+        {{ tinymce_init() }}
+    </div>
+{% endblock %}

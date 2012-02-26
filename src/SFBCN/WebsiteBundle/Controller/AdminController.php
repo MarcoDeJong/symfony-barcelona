@@ -44,6 +44,10 @@ class AdminController extends Controller
      */
     public function menuAction()
     {
-        return array();
+        $nextEvent = $this->getDoctrine()->getRepository('SFBCNWebsiteBundle:Event')
+                                         ->getNextEvent();
+        return array(
+            'nextEvent' => $nextEvent
+        );
     }
 }
