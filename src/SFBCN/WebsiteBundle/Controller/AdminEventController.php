@@ -51,7 +51,8 @@ class AdminEventController extends Controller
 
         return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        );
+            'delete_form' => $deleteForm->createView()
+        );
     }
 
     /**
@@ -90,6 +91,7 @@ class AdminEventController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->setFlash('notice', 'Event succesfully created!');
             return $this->redirect($this->generateUrl('event_show', array('id' => $entity->getId())));
             
         }
@@ -154,6 +156,7 @@ class AdminEventController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->get('session')->setFlash('notice', 'Event updated succesfully!');
             return $this->redirect($this->generateUrl('event_edit', array('id' => $id)));
         }
 

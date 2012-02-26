@@ -1,16 +1,37 @@
-<h1>Event creation</h1>
+{% extends 'SFBCNWebsiteBundle::adminlayout.html.twig' %}
 
-<form action="{{ path('event_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit">Create</button>
-    </p>
-</form>
+{% block header %}
+{% set activeItem = 1 %}
+{{ parent() }}
+{% endblock %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('event') }}">
-            Back to the list
-        </a>
-    </li>
-</ul>
+{% block content %}
+<div class="page-header">
+    <h1>Event creation <small>Here you can create a new event</small></h1>
+</div>
+<div class="row">
+    <div class="span4">
+        <h3>Create a new event</h3>
+    </div>
+    <div class="span8">
+        {% form_theme form 'SFBCNWebsiteBundle:Form:bootstrap.html.twig' %}
+        <form class="form-horizontal" action="{{ path('event_create') }}" method="post" {{ form_enctype(form) }}>
+            {{ form_widget(form) }}
+
+            <div class="form-actions">
+                <button class="btn btn-success" type="submit">
+                    <i class="icon-white icon-ok"></i>
+                    Create event
+                </button>&nbsp;
+
+                <a class="btn btn-warning" href="{{ path('event') }}">
+                    <i class="icon-white icon-backward"></i>
+                    Back to the list
+                </a>
+            </div>
+        </form>
+
+        {{ tinymce_init() }}
+   </div>
+</div>
+{% endblock %}

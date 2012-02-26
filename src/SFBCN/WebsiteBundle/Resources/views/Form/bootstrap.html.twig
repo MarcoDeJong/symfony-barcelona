@@ -1,0 +1,42 @@
+{% macro hasErrors(field) %}
+    {% if form_errors(field)|length > 1 %}
+    {{ ' error' }}
+    {% endif %}
+{% endmacro %}
+
+{% block form_widget %}
+{% spaceless %}
+{{ block('field_rows') }}
+{{ form_rest(form) }}
+{% endspaceless %}
+{% endblock form_widget %}
+
+{% block field_rows %}
+{% spaceless %}
+    {% for child in form %}
+    {{ form_row(child) }}
+    {% endfor %}
+{% endspaceless %}
+{% endblock field_rows %}
+
+{% block field_errors %}
+{% spaceless %}
+    {% if errors is defined and errors|length > 0 %}
+    {% for error in errors %}
+    <span class="help-inline error">{{ error.messageTemplate|trans(error.messageParameters, 'validators') }}</span>
+    {% endfor %}
+    {% endif %}
+{% endspaceless %}
+{% endblock field_errors %}
+
+{% block field_row %}
+{% spaceless %}
+<div class="control-group{{ _self.hasErrors(form) }}">
+    {{ form_label(form, null, { attr: { class: 'control-label' } }) }}
+    <div class="controls">
+        {{ form_widget(form, _context) }}
+        {{ form_errors(form) }}
+    </div>
+</div>
+{% endspaceless %}
+{% endblock field_row %}

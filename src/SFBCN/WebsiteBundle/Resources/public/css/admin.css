@@ -1,0 +1,21 @@
+.countdown {font-family:Verdana, Arial, Helvetica, sans-serif; font-size: 13px; color:#277c94;margin-top:20px;}
+.countdown a {color:#0b4c5f; text-decoration:none}
+.countdown a:hover {text-decoration:underline}
+.countdown input, textarea, select {margin: 0; padding: 5px; color: #666; background: #f7f7f7; border: 1px solid #c4c4c4; margin: 5px 0; -moz-border-radius: 5px; -webkit-border-radius:5px;font-family:Arial, Helvetica, sans-serif; font-size:12px}
+.countdown input{width: 300px;margin-top:-3px}
+.countdown textarea{width: 400px; margin-top:0}
+.countdown input:focus, textarea:focus, select:focus {border:1px solid #989898; background-color:#fefefe;}
+.countdown input.ecd_submit {color:#ffffff; width:60px; cursor:pointer; border:2px solid #2f2f2f; background:#323232; -moz-border-radius:6px; -khtml-border-radius:6px; -webkit-border-radius:6px; border-radius:6px; padding:3px}
+.countdown input:hover.ecd_submit{background:#4e4e4e; border-color:#393939}
+.countdown h1 { color:#0e4f5c}
+.countdown h2 { color:#0e4f5c}
+.countdown h3 { color:#0e4f5c}
+.countdown h4 { color:#0e4f5c}
+.countdown h5 { color:#0e4f5c}
+.countdown h6 { color:#0e4f5c}
+.countdown .nextEvent {height:150px; width:74%; padding-top:40px; margin: 0 auto; background-color:#fff; border:none; color:#04445e;}
+.countdown .nextEvent .countdown_amount {font-size:120px; line-height:100px; color:#3ba1b6; font-family:Arial, Helvetica, sans-serif !important; font-weight:bold; letter-spacing:-4px}
+.countdown .nextEvent .countdown_unit{ font-size:20px;}
+.countdown .nextEvent .countdown_section{display:block;float:left;margin-right:90px;text-align:center;font-family:'Doppio One', Verdana, Arial, Helvetica, sans-serif;font-size:2em;}
+.clearboth{clear:both;}
+.separe-from-countdown{margin-top:20px;}
