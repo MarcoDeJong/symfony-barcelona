@@ -28,9 +28,12 @@
 <div class="row">
     <div class="span8 offset2">
         {% if error %}
-        <div>{{ error.message | trans }}</div>
+        <div class="alert alert-block alert-error fade in">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            <h4 class="alert-heading">Oh snap! You got an error!</h4>
+            <p>{{ error.message | trans }}. Please, try it again!</p>
+        </div>
         {% endif %}
-
         <form class="well form-inline" action="{{ path('login_check') }}" method="post">
             <input type="text" class="input-small" placeholder="Your username" id="username" name="_username" value="{{ last_username }}">&nbsp;
             <input type="password" id="password" name="_password" class="input-small" placeholder="Your password">&nbsp;
