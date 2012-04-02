@@ -11,7 +11,7 @@ class EventType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('body', null, array('attr' => array('class' => 'tinymce', 'tinymce' => '{"theme":"advanced"}')))
+            ->add('body', null, array('attr' => array('class' => 'tinymce', 'data-theme' => 'medium')))
             ->add('datetime')
             ->add('location')
             ->add('gmaps')
