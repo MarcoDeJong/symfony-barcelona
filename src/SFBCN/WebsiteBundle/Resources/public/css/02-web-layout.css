@@ -219,6 +219,10 @@ aside.related p {
 	font-family: trebuchet ms, Arial,Helvetica,sans-serif;
 }
 
+.page-content li {
+	color:#999;
+}	
+
 .home article {
     float: left;
 }
